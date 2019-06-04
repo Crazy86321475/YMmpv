@@ -340,7 +340,6 @@ Vo_Dmx_Deinit(
     int res;
 struct timeval start,stop;
 gettimeofday(&start,0);
-    _vodmx_ctx->count_rgb = _vodmx_ctx->p_img_queue_rgb->count;
 
     DEBUG_LOG_INFO( "Vo_Dmx_Deinit Start.\n" );
     if( NULL == _vodmx_ctx )
@@ -348,6 +347,7 @@ gettimeofday(&start,0);
         DEBUG_LOG_INFO( "Vo_Dmx_Deinit - NOT INITED.\n" );
         goto EXIT;
     }
+    _vodmx_ctx->count_rgb = _vodmx_ctx->p_img_queue_rgb->count;
     _vodmx_ctx->status = VO_DMX_DEINITING;
 
     /* step-1 : free thread */

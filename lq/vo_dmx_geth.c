@@ -372,8 +372,11 @@ EXIT:
     while (img_rgb = (mp_image_t*)Img_Queue_Recv(g_img_queue_rgb2geth)) {
         talloc_free(img_rgb);
     }
-    if (0 != (out_w + out_h))
+    /* clear screen by send a blank frame */
+    if (0 != (out_w + out_h)) {
+        usleep(1e4);
         Vo_Geth_Draw_Blank(out_w, out_h);
+    }
     return NULL;
 }
 

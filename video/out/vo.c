@@ -311,12 +311,16 @@ void vo_destroy(struct vo *vo)
 {
     printf("CPK: entry %s\n", __func__);
     struct vo_internal *in = vo->in;
-	//usleep(1e5);
-	Vo_Dmx_Deinit();
     mp_dispatch_lock(in->dispatch);
     vo->in->terminate = true;
     mp_dispatch_unlock(in->dispatch);
     pthread_join(vo->in->thread, NULL);
+    /*Vo_Dmx_Deinit should after vo_thread join, 
+    because vo_dmx_process in vo_thread use pool unit
+    that will be free in Vo_Dmx_Deinit.
+    */
+    if (Vo_Dmx_Is_Inited())
+        Vo_Dmx_Deinit();
     dealloc_vo(vo);
 }
 
